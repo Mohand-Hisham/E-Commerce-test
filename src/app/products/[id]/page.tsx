@@ -23,14 +23,22 @@ const product: ProductType = {
 export const generateMetadata = async ({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) => {
-  // TODO:get the product from db
+  // TODO: get the product from db
   // TEMPORARY
+  const { id } = await params;
   return {
     title: product.name,
-    describe: product.description,
+    description: product.description,
   };
+};
+
+// required for `output: 'export'` on a dynamic route
+export const generateStaticParams = async () => {
+  // TODO: fetch all product ids from your data source
+  // TEMPORARY stub with a single id
+  return [{ id: "1" }];
 };
 
 const ProductPage = async ({
@@ -38,9 +46,10 @@ const ProductPage = async ({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ color: string; size: string }>;
+  searchParams: Promise<{ color?: string; size?: string }>;
 }) => {
   const { size, color } = await searchParams;
+  const { id } = await params;
 
   const selectedSize = size || (product.sizes[0] as string);
   const selectedColor = color || (product.colors[0] as string);
