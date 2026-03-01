@@ -14,6 +14,7 @@ const products: ProductsType = [
     description:
       "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
     price: 39.9,
+    category: "t-shirts",
     sizes: ["s", "m", "l", "xl", "xxl"],
     colors: ["gray", "purple", "green"],
     images: {
@@ -30,6 +31,7 @@ const products: ProductsType = [
     description:
       "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
     price: 59.9,
+    category: "jackets",
     sizes: ["s", "m", "l", "xl"],
     colors: ["gray", "green"],
     images: { gray: "/products/2g.png", green: "/products/2gr.png" },
@@ -42,6 +44,7 @@ const products: ProductsType = [
     description:
       "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
     price: 69.9,
+    category: "jackets",
     sizes: ["s", "m", "l"],
     colors: ["green", "blue", "black"],
     images: {
@@ -58,6 +61,7 @@ const products: ProductsType = [
     description:
       "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
     price: 29.9,
+    category: "t-shirts",
     sizes: ["s", "m", "l"],
     colors: ["white", "pink"],
     images: { white: "/products/4w.png", pink: "/products/4p.png" },
@@ -70,6 +74,7 @@ const products: ProductsType = [
     description:
       "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
     price: 49.9,
+    category: "jackets",
     sizes: ["s", "m", "l"],
     colors: ["red", "orange", "black"],
     images: {
@@ -86,6 +91,7 @@ const products: ProductsType = [
     description:
       "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
     price: 59.9,
+    category: "shoes",
     sizes: ["40", "42", "43", "44"],
     colors: ["gray", "white"],
     images: { gray: "/products/6g.png", white: "/products/6w.png" },
@@ -98,6 +104,7 @@ const products: ProductsType = [
     description:
       "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
     price: 69.9,
+    category: "shoes",
     sizes: ["40", "42", "43"],
     colors: ["gray", "pink"],
     images: { gray: "/products/7g.png", pink: "/products/7p.png" },
@@ -110,19 +117,31 @@ const products: ProductsType = [
     description:
       "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
     price: 59.9,
+    category: "jackets",
     sizes: ["s", "m", "l"],
     colors: ["blue", "green"],
     images: { blue: "/products/8b.png", green: "/products/8gr.png" },
   },
 ];
 
-const ProductList = ({ category,params }: { category: string, params:"homepage" | "products" }) => {
+const ProductList = ({
+  category,
+  params,
+}: {
+  category: string;
+  params: "homepage" | "products";
+}) => {
+  const filteredProducts =
+    !category || category === "all"
+      ? products
+      : products.filter((product) => product.category === category);
+
   return (
     <div className="w-full">
       <Categories />
-      {params === "products" && <Filter/>}
+      {params === "products" && <Filter />}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-12">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
